@@ -1,3 +1,6 @@
+## DHFS: MUST RUN FROM cocoa/Cocoa beta release v4.11.2
+output: ../../lsst_wz_forecasts/chains/EXAMPLE_BETA_EVALUATE1
+
 timing: True
 debug: False
 stop_at_error: False
@@ -248,4 +251,3 @@ sampler:
       #LSST_A2_1:  0.05
       #LSST_BTA_1: 0.05
       LSST_A2_2: -1.51541
-output: ./projects/lsst_y1/chains/EXAMPLE_EVALUATE1
