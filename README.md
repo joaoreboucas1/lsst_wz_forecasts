@@ -7,16 +7,9 @@ This project uses Cocoa to make forecasts for smooth dark energy models using LS
 
 ## Testing CoCoA Legacy, Stable and Beta  
 
-### Legacy Version
-
-source ./installation_scripts/setup_cosmolike_projects.sh  
-  GETTING LSST_Y1   
-fatal: a branch named 'v4.05' already exists  
-        (setup_cosmolike_projects.sh) we cannot run  GIT CHECKOUT  
-
-### Stable Version
+### Legacy Version - branch v4.052: 
 OK  
-
-### Beta Release
+### Stable Version - branch v4.071  
 OK  
-
+### Beta Release - branch v4.11.2   
+OK  
