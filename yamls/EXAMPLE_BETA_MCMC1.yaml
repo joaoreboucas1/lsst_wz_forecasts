@@ -5,6 +5,26 @@ timing: True
 debug: False
 stop_at_error: False
 
+theory:
+  camb:
+    path: ./external_modules/code/CAMB
+    stop_at_error: False
+    use_renames: True
+    extra_args:
+      halofit_version: takahashi
+      AccuracyBoost: 1.05
+      lens_potential_accuracy: 1.0
+      dark_energy_model: ppf
+      accurate_massive_neutrino_transfers: false
+      k_per_logint: 10
+      kmax: 7.5
+#  fastpt:
+#    path: ./external_modules/code/FAST-PT
+    #extra_args:
+      #accuracyboost: 5
+      #kmax_boltzmann: 7.5
+      #extrap_kmax: 250.0
+
 likelihood:
   lsst_y1.cosmic_shear:
     path: ./external_modules/data/lsst_y1
@@ -25,6 +45,7 @@ likelihood:
     create_baryon_pca: false
     baryon_pca_select_sims: "antilles-2-99/antilles-101-378/antilles-380-400"
     filename_baryon_pca: "./projects/lsst_y1/chains/pca.txt"
+
 params:
   As_1e9:
     prior:
@@ -322,25 +343,6 @@ params:
     #proposal: 0.1
     latex: A_\mathrm{BTA-IA,LSST}^1
 
-theory:
-  camb:
-    path: ./external_modules/code/CAMB
-    stop_at_error: False
-    use_renames: True
-    extra_args:
-      halofit_version: takahashi
-      AccuracyBoost: 1.05
-      lens_potential_accuracy: 1.0
-      dark_energy_model: ppf
-      accurate_massive_neutrino_transfers: false
-      k_per_logint: 10
-      kmax: 7.5
-#  fastpt:
-#    path: ./external_modules/code/FAST-PT
-    #extra_args:
-      #accuracyboost: 5
-      #kmax_boltzmann: 7.5
-      #extrap_kmax: 250.0
 sampler:
   mcmc:
     # ---------------------------------------------------------------------
