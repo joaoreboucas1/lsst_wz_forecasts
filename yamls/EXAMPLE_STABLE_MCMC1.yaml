@@ -5,6 +5,21 @@ timing: False
 debug: False
 stop_at_error: False
 
+theory:
+  camb:
+    path: ./external_modules/code/CAMB
+    stop_at_error: False
+    use_renames: True
+    extra_args:
+      halofit_version: takahashi
+      AccuracyBoost: 1.0 
+      num_massive_neutrinos: 1
+      nnu: 3.046
+      dark_energy_model: ppf
+      accurate_massive_neutrino_transfers: false
+      k_per_logint: 10
+      kmax: 5.0
+
 likelihood:
   lsst_y1.cosmic_shear:
     path: ./external_modules/data/lsst_y1
@@ -16,6 +31,7 @@ likelihood:
     non_linear_emul: 2
     IA_model: 0
     IA_redshift_evolution: 3
+
 params:
   As_1e9:
     prior:
@@ -260,20 +276,7 @@ params:
       scale: 0.005
     proposal: 0.005
     latex: m_\mathrm{LSST}^5
-theory:
-  camb:
-    path: ./external_modules/code/CAMB
-    stop_at_error: False
-    use_renames: True
-    extra_args:
-      halofit_version: takahashi
-      AccuracyBoost: 1.0 
-      num_massive_neutrinos: 1
-      nnu: 3.046
-      dark_energy_model: ppf
-      accurate_massive_neutrino_transfers: false
-      k_per_logint: 10
-      kmax: 5.0
+
 sampler:
   mcmc:
     # ---------------------------------------------------------------------

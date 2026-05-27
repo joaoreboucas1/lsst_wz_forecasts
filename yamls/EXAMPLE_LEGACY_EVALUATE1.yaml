@@ -1,5 +1,5 @@
-## DHFS: MUST RUN FROM cocoa/Cocoa stable version v4.071
-output: ../../lsst_wz_forecasts/chains/EXAMPLE_STABLE_EVALUATE1
+## DHFS: MUST RUN FROM cocoa/Cocoa legacy version v4.052
+output: ../../lsst_wz_forecasts/chains/EXAMPLE_LEGACY_EVALUATE1
 
 timing: True
 debug: False

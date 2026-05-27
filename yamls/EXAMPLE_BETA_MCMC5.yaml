@@ -1,5 +1,5 @@
 ## DHFS: MUST RUN FROM cocoa/Cocoa beta release v4.11.2
-output: ../../lsst_wz_forecasts/chains/EXAMPLE_BETA_MCMC1
+output: ../../lsst_wz_forecasts/chains/EXAMPLE_BETA_MCMC5
 
 timing: True
 debug: False
@@ -28,7 +28,7 @@ theory:
 likelihood:
   lsst_y1.cosmic_shear:
     path: ./external_modules/data/lsst_y1
-    data_file: lsst_y1_M1_GGL0.05.dataset   # 705 non-masked elements  (EE2 delta chi^2 ~ 11.8)
+    data_file: lsst_y1_M5_GGL0.05.dataset  # 315 non-masked elements  (EE2 delta chi^2 ~ 0.5)
     print_datavector: False
     print_datavector_file: "./projects/lsst_y1/chains/theory.modelvector"
     accuracyboost: 1.0
