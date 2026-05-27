@@ -1,24 +1,23 @@
 import numpy as np
-import matplotlib.pyplot as plt
 
-def smail(z, z0=0.11, beta=2, alpha=0.68, zmax=None):
+def smail(z, z0=0.11, beta=2, alpha=0.68, zmin=None, zmax=None):
     z = np.asarray(z)
     nz = z**beta * np.exp(-(z / z0)**alpha)
     if zmax is not None:
         nz = np.where(z <= zmax, nz, 0.0)
+    if zmin is not None:
+        nz = np.where(z >= zmin, nz, 0.0)
     return nz / np.trapezoid(nz, z)
 
 if __name__ == "__main__":
     samples = {
-        "source": (0.174, 0.772, 3.5, 0.02),
-        "lens":   (0.283, 0.900, 1.2, 0.05),
+        "source": (5,  0.11, 0.68, 0, 3.5, 0.05),
+        "lens":   (10, 0.283, 0.900, 0.2, 1.2, 0.05),
     }
 
-    num_bins = 10
-
-    for sample, (z0, alpha, zmax, sigma_gauss_conv) in samples.items():
+    for sample, (num_bins, z0, alpha, zmin, zmax, sigma_gauss_conv) in samples.items():
         z = np.linspace(0.0, 3.5, 1000)
-        nz = smail(z, z0=z0, alpha=alpha, zmax=zmax)  # normalized to unity
+        nz = smail(z, z0=z0, alpha=alpha, zmin=zmin, zmax=zmax)  # normalized to unity
         dz = z[1] - z[0]
         cum = np.cumsum(nz) * dz
 
@@ -29,8 +28,6 @@ if __name__ == "__main__":
         # overall mean
         mean_z = np.trapezoid(z * nz, z)
 
-        # Plot each bin's distribution (normalized within the bin) and collect them
-        fig, ax = plt.subplots()
         binned_nz_list = []
         for i in range(num_bins):
             z0_edge = z_edges[i]
@@ -57,15 +54,6 @@ if __name__ == "__main__":
             # store this bin's smoothed distribution
             binned_nz_list.append(nz_conv)
 
-            ax.plot(z, nz_conv, lw=1.5)
-            frac = area
-            ax.grid(alpha=0.3)
-
-        ax.set_title(f"LSST Y10 {sample}")
-        ax.set_xlim(0, 3.5)
-        ax.set_ylim(0, 10)
-        plt.tight_layout()
-        plt.show()
 
         # Save z and per-bin n(z) to a text file: first column z, then columns for each bin
         data = np.column_stack([z] + binned_nz_list)
