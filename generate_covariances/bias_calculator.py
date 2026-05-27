@@ -34,16 +34,18 @@ print(f"{sigma8 = }")
 D_z = results.get_redshift_evolution([1e-5], z_growth, ['delta_tot'])[0,:,0]
 D_z /= D_z[0]
 
-# Y1 n(z)
-y1_lens_nz_data = np.loadtxt("lsst_y1_lens.nz", unpack=True)
-z, n1, n2, n3, n4, n5 = y1_lens_nz_data
+nz_filename = "lsst_y10_lens_binny.nz"
+y1_lens_nz_data = np.loadtxt(nz_filename, unpack=True)
+z = y1_lens_nz_data[0]
+nz = y1_lens_nz_data[1:]
+num_bins = len(nz)
 lens_mean_redshifts = []
-for bin_nz in [n1, n2, n3, n4, n5]:
+for bin_nz in nz:
     mean = np.sum(z*bin_nz)/np.sum(bin_nz)
     lens_mean_redshifts.append(mean)
 
 D_z_interp = interp1d(z_growth, D_z)
-print("Fiducial bias for Y1")
+print(f"Fiducial bias for {nz_filename}")
 for z in lens_mean_redshifts:
     b = 1.05/D_z_interp(z)
     print(f"{z = } => {b = }")
