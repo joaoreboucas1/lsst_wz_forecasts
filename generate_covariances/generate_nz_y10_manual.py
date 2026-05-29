@@ -3,21 +3,27 @@ import numpy as np
 def smail(z, z0=0.11, beta=2, alpha=0.68, zmin=None, zmax=None):
     z = np.asarray(z)
     nz = z**beta * np.exp(-(z / z0)**alpha)
-    if zmax is not None:
-        nz = np.where(z <= zmax, nz, 0.0)
-    if zmin is not None:
-        nz = np.where(z >= zmin, nz, 0.0)
+    # if zmax is not None:
+    #     nz = np.where(z <= zmax, nz, 0.0)
+    # if zmin is not None:
+    #     nz = np.where(z >= zmin, nz, 0.0)
     return nz / np.trapezoid(nz, z)
 
 if __name__ == "__main__":
     samples = {
+        "lens":   (10, 0.26, 0.94, 0.2, 1.2, 0.05),
         "source": (5,  0.11, 0.68, 0, 3.5, 0.05),
-        "lens":   (10, 0.283, 0.900, 0.2, 1.2, 0.05),
     }
 
     for sample, (num_bins, z0, alpha, zmin, zmax, sigma_gauss_conv) in samples.items():
         z = np.linspace(0.0, 3.5, 1000)
         nz = smail(z, z0=z0, alpha=alpha, zmin=zmin, zmax=zmax)  # normalized to unity
+        if zmax is not None:
+            nz = np.where(z <= zmax, nz, 0.0)
+        if zmin is not None:
+            nz = np.where(z >= zmin, nz, 0.0)
+        print(np.trapezoid(nz, z))
+        exit(0)
         dz = z[1] - z[0]
         cum = np.cumsum(nz) * dz
 
