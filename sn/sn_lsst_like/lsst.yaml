@@ -1,0 +1,18 @@
+## Adapted from union3.yaml
+
+# Settings for SIMULATED LSST SN Ia
+
+# Path to the data: where the sn_data has been cloned
+path: null
+# path: ../../lsst_wz_forecasts/sn_lsst_data/Y1_DDF_FOUNDATION
+# .dataset file with settings
+# dataset_file: Y1_DDF_FOUNDATION_0.dataset
+# Overriding of .dataset parameters
+dataset_params:
+# field: value
+# Aliases for automatic covariance matrix
+aliases: [LSST]
+# Use absolute magnitude
+use_abs_mag: False
+# Speed in evaluations/second
+speed: 100

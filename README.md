@@ -13,3 +13,7 @@ OK
 OK  
 ### Beta Release - branch v4.11.2   
 OK  
+
+LSST SN: covariances taken from https://zenodo.org/records/1409816  
+How to use in CoCoA: copy sn/sn_lsst_like/ to cocoa/Cocoa/cobaya/cobaya/likelihoods/  
+Examples: yamls/EXAMPLE_SN_EVALUATE_Y1.yaml for year 1 and yamls/EXAMPLE_SN_EVALUATE_Y10.yaml for year 10  
