@@ -12,4 +12,4 @@
 - Lenses: 10 bins, $n_\mathrm{eff} = 30$*, $z_0 = 0.28$, $\alpha = 0.90$, bias = $1.05/G(\bar{z})$, gauss conv std = 0.03, z cut: [0.2, 1.2]
 - Sources: 5 bins, $n_\mathrm{eff} = 27$, $z_0 = 0.11$, $\alpha = 0.68$, shape noise per comp = 0.26, gauss conv std = 0.05
 
-* Because of the redshift window cutoff of [0.2, 1.2], $n_\mathrm{eff}$ drops by a factor of 72.5% in Y1 and 62% in Y10.
+* Because of the redshift window cutoff of [0.2, 1.2], $n_\mathrm{eff}$ drops by a factor of 72.5% (original 18/arcmin^2) in Y1 and 62% in Y10 (original 48/arcmin^2).

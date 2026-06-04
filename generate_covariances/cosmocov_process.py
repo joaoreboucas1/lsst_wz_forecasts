@@ -134,6 +134,13 @@ def main() -> None:
         description="Run CosmoCov blocks and collect them into covariance matrices."
     )
     parser.add_argument(
+        "--year",
+        type=int,
+        required=True,
+        choices=[1, 10],
+        help="LSST Year (1 or 10).",
+    )
+    parser.add_argument(
         "--skip-run",
         action="store_true",
         help="Skip CosmoCov execution and only collect existing block files.",
@@ -145,6 +152,22 @@ def main() -> None:
         help="Number of parallel CosmoCov workers. Defaults to cosmocov_input.MAX_WORKERS.",
     )
     args = parser.parse_args()
+    
+    if args.year == 1:
+        cfg.PROJECT_NAME = cfg.PROJECT_NAME_Y1
+        cfg.INI_FILE = cfg.INI_FILE_Y1
+        cfg.OUTPUT_STEM = cfg.OUTPUT_STEM_Y1
+        cfg.FINAL_COVARIANCE_STEM = cfg.FINAL_COVARIANCE_STEM_Y1
+        cfg.N_BIN_SOURCE = cfg.N_BIN_SOURCE_Y1
+        cfg.N_BIN_LENS = cfg.N_BIN_LENS_Y1
+    else:
+        cfg.PROJECT_NAME = cfg.PROJECT_NAME_Y10
+        cfg.INI_FILE = cfg.INI_FILE_Y10
+        cfg.OUTPUT_STEM = cfg.OUTPUT_STEM_Y10
+        cfg.FINAL_COVARIANCE_STEM = cfg.FINAL_COVARIANCE_STEM_Y10
+        cfg.N_BIN_SOURCE = cfg.N_BIN_SOURCE_Y10
+        cfg.N_BIN_LENS = cfg.N_BIN_LENS_Y10
+
 
     if not args.skip_run:
         run_all_blocks(args.workers)

@@ -10,24 +10,31 @@ from pathlib import Path
 # Directory containing this small three-file CosmoCov setup.
 BASE_DIR = Path(__file__).resolve().parent
 
-PROJECT_NAME = "LSST"
 
 # Path to the CosmoCov checkout. The runner expects the executable at:
 #   PATH_COSMOCOV_REPO / "covs" / "cov"
-PATH_COSMOCOV_REPO = Path("/home/joao/cosmo/CosmoCov")
+PATH_COSMOCOV_REPO = Path("/home/u3/joaoreboucas/CosmoCov")
 
 # Main files/directories used by the runner.
-INI_FILE = BASE_DIR / "roman_cov.ini"
 OUTPUT_DIR = BASE_DIR / "data"
-OUTPUT_STEM = "roman_cov"
-FINAL_COVARIANCE_STEM = f"roman_cov"
 
-# These must match source_tomobins/lens_tomobins in comsocov.ini.
-N_BIN_SOURCE = 8
-N_BIN_LENS = 8
+PROJECT_NAME_Y1 = "LSST_Y1"
+INI_FILE_Y1 = BASE_DIR / "lsst_y1_cov.ini"
+OUTPUT_STEM_Y1 = "lsst_y1_cov"
+FINAL_COVARIANCE_STEM_Y1 = f"lsst_y1_cov"
+N_BIN_SOURCE_Y1 = 5
+N_BIN_LENS_Y1 = 5
+
+PROJECT_NAME_Y10 = "LSST_Y10"
+INI_FILE_Y10 = BASE_DIR / "lsst_y10_cov.ini"
+OUTPUT_STEM_Y10 = "lsst_y10_cov"
+FINAL_COVARIANCE_STEM_Y10 = f"lsst_y10_cov"
+N_BIN_SOURCE_Y10 = 5
+N_BIN_LENS_Y10 = 10
+
 
 # Number of CosmoCov blocks to run at once.
-MAX_WORKERS = 24
+MAX_WORKERS = 32
 
 # Optional pipeline metadata from the old setup. These are not used by
 # cosmocov_process.py, but are left here as documentation for the run.
