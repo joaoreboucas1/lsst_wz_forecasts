@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --job-name=COV_LSST
-#SBATCH --output=./projects/lsst_wz_forecasts/logs/%x_%a_%A.out
-#SBATCH --error=./projects/lsst_wz_forecasts/logs/%x_%a_%A.err
+#SBATCH --output=../logs/%x_%a_%A.out
+#SBATCH --error=../logs/%x_%a_%A.err
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=32
