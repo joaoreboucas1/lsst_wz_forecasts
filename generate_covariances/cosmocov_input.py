@@ -16,7 +16,7 @@ BASE_DIR = Path(__file__).resolve().parent
 PATH_COSMOCOV_REPO = Path("/home/u3/joaoreboucas/CosmoCov")
 
 # Main files/directories used by the runner.
-OUTPUT_DIR = BASE_DIR / "data"
+OUTPUT_DIR = BASE_DIR / "CosmoCov_output"
 
 PROJECT_NAME_Y1 = "LSST_Y1"
 INI_FILE_Y1 = BASE_DIR / "lsst_y1_cov.ini"
