@@ -1,6 +1,6 @@
-data_file = Y10.modelvector
+data_file = dummy_Y10.modelvector
 cov_file = Y10.cov
-mask_file = ones.mask
+mask_file = ones_Y10.mask
 nz_lens_file = Y10_lens.nz 
 nz_source_file = Y10_source.nz
 lens_ntomo = 10
