@@ -1,12 +1,12 @@
 timing: True
 debug: False
 stop_at_error: False
-output: ./projects/lsst_wz_forecasts/chains/GENERATE_DV_NOBARYONS
+output: ./projects/lsst_wz_forecasts/chains/GENERATE_DV_BARYONS_Y1
 
 likelihood:
   lsst_y1.combo_3x2pt:
     path: ./projects/lsst_wz_forecasts/data/
-    data_file: dummy_Y10.dataset
+    data_file: dummy_Y1.dataset
     accuracyboost: 1.0
     integration_accuracy: 0
     lmax: 65000
@@ -14,15 +14,16 @@ likelihood:
     non_linear_emul: 2
     IA_model: 0   # NLA (0) or TATT (1)
     IA_redshift_evolution: 3
-    add_baryons_on_dv: False
+    add_baryons_on_dv: True
     which_bsims_add_on_dv: "owls_AGN_t85"
     print_datavector: True
-    print_datavector_file: "./projects/lsst_wz_forecasts/data/Y10_NOBARYONS.modelvector"
+    print_datavector_file: "./projects/lsst_wz_forecasts/data/Y1_BARYONS.modelvector"
 
 params: !defaults
   - params_cosmo
   - params_derived
-  - params_lens_Y10
+
+
 
 theory:
   camb:
@@ -64,18 +65,8 @@ sampler:
       LSST_DZ_L3: 0
       LSST_DZ_L4: 0
       LSST_DZ_L5: 0
-      LSST_DZ_L6: 0
-      LSST_DZ_L7: 0
-      LSST_DZ_L8: 0
-      LSST_DZ_L9: 0
-      LSST_DZ_L10: 0
       LSST_B1_1: 1.24
       LSST_B1_2: 1.37
       LSST_B1_3: 1.51
       LSST_B1_4: 1.65
       LSST_B1_5: 1.80
-      LSST_B1_6: 1.24
-      LSST_B1_7: 1.37
-      LSST_B1_8: 1.51
-      LSST_B1_9: 1.65
-      LSST_B1_10: 1.80

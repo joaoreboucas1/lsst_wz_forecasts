@@ -1,0 +1,105 @@
+LSST_DZ_L6:
+  prior:
+    dist: norm
+    loc: 0.0
+    scale: 0.005
+  ref:
+    dist: norm
+    loc: 0.0
+    scale: 0.005
+  proposal: 0.005
+  latex: \Delta z_\mathrm{l,LSST}^6
+LSST_DZ_L7:
+  prior:
+    dist: norm
+    loc: 0.0
+    scale: 0.005
+  ref:
+    dist: norm
+    loc: 0.0
+    scale: 0.005
+  proposal: 0.005
+  latex: \Delta z_\mathrm{l,LSST}^7
+LSST_DZ_L8:
+  prior:
+    dist: norm
+    loc: 0.0
+    scale: 0.005
+  ref:
+    dist: norm
+    loc: 0.0
+    scale: 0.005
+  proposal: 0.005
+  latex: \Delta z_\mathrm{l,LSST}^8
+LSST_DZ_L9:
+  prior:
+    dist: norm
+    loc: 0.0
+    scale: 0.005
+  ref:
+    dist: norm
+    loc: 0.0
+    scale: 0.005
+  proposal: 0.005
+  latex: \Delta z_\mathrm{l,LSST}^9
+LSST_DZ_L10:
+  prior:
+    dist: norm
+    loc: 0.0
+    scale: 0.005
+  ref:
+    dist: norm
+    loc: 0.0
+    scale: 0.005
+  proposal: 0.005
+  latex: \Delta z_\mathrm{l,LSST}^{10}
+LSST_B1_6:
+  prior:
+    min: 0.8
+    max: 3
+  ref:
+    dist: norm
+    loc: 1.60
+    scale: 0.15
+  proposal: 0.1
+  latex: b_\mathrm{1-LSST}^6
+LSST_B1_7:
+  prior:
+    min: 0.8
+    max: 3
+  ref:
+    dist: norm
+    loc: 1.60
+    scale: 0.15
+  proposal: 0.1
+  latex: b_\mathrm{1-LSST}^7
+LSST_B1_8:
+  prior:
+    min: 0.8
+    max: 3
+  ref:
+    dist: norm
+    loc: 1.60
+    scale: 0.15
+  proposal: 0.1
+  latex: b_\mathrm{1-LSST}^8
+LSST_B1_9:
+  prior:
+    min: 0.8
+    max: 3
+  ref:
+    dist: norm
+    loc: 1.60
+    scale: 0.15
+  proposal: 0.1
+  latex: b_\mathrm{1-LSST}^9
+LSST_B1_10:
+  prior:
+    min: 0.8
+    max: 3
+  ref:
+    dist: norm
+    loc: 1.60
+    scale: 0.15
+  proposal: 0.1
+  latex: b_\mathrm{1-LSST}^{10}
