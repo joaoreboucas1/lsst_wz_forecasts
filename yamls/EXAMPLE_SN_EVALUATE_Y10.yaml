@@ -5,11 +5,14 @@ timing: False
 debug: False
 stop_at_error: False
 
+dataset1: &ds1 Y10_DDF_WFD_FOUNDATION_0.dataset
+dataset2: &ds2 Y10_DDF_WFD_FOUNDATION_0_CosmoCovFidParams.dataset
+
 likelihood:
   # LSST SN simulation    
   sn_lsst_like.lsst:
     path: ../../lsst_wz_forecasts/sn/sn_lsst_data/Y10_DDF_WFD_FOUNDATION/
-    dataset_file: Y10_DDF_WFD_FOUNDATION_0.dataset
+    dataset_file: *ds1
 
 theory:
   camb:
@@ -167,8 +170,8 @@ sampler:
       As_1e9: 2.1
       ns: 0.96605
       H0: 67.32
-      omegab: 0.04
-      omegam: 0.3
+      omegab: 0.049
+      omegam: 0.319
       mnu: 0.06
-      w0pwa: -0.9
-      w: -0.9
+      w0pwa: -1
+      w: -1

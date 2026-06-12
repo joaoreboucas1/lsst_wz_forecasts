@@ -5,29 +5,40 @@ import matplotlib.pyplot as plt
 import numpy as np
 import camb
 import os
+import argparse
 
 home = os.getcwd()
 
-##############
-## Input files
-##############
-snp     = 'sn/sn_lsst_data'
-y1      = 'Y1_DDF_FOUNDATION'
-y10     = 'Y10_DDF_WFD_FOUNDATION'
-lcp_y1  = 'lcparam_Y1_DDF_FOUNDATION.txt'
-lcp_y10 = 'lcparam_Y10_DDF_WFD_FOUNDATION.txt'
+parser = argparse.ArgumentParser()
+parser.add_argument("--year",type=int,default=1,help='The LSST SN Year. Available options: `1` or `10`.')
+parser.add_argument("--sys_id",type=int,default=0,help='The systematic covariance index. Available options: `0`,...,`7`.')
+args = parser.parse_args()
 
-zcmb_y1 = np.loadtxt(f'{snp}/{y1}/{lcp_y1}')[:,1]
-dmb_y1 = np.loadtxt(f'{snp}/{y1}/{lcp_y1}')[:,5]
+if args.year not in [1,10]:
+    raise ValueError('LSST Year: Available options are `y1`, `y10`.')
 
-zcmb_y10 = np.loadtxt(f'{snp}/{y10}/{lcp_y10}')[:,1]
-dmb_y10 = np.loadtxt(f'{snp}/{y10}/{lcp_y10}')[:,5]
+if args.sys_id not in list(range(7)):
+    raise ValueError('Systematic covariance index: Available options are `0`,...,`7`.')
 
-zcmb = zcmb_y1 
+print(f'Using LSST year = {args.year}')
+print(f'Using systematic covariance index = {args.sys_id}')
+
+if args.year == 1: 
+    obs = 'DDF' # observational strategy
+elif args.year == 10:
+    obs = 'DDF_WFD'
+
+# Get the redshift and the statistical errors for ...
+lcp_old = f'lcparam_Y{args.year}_{obs}_FOUNDATION.txt'
+zcmb = np.loadtxt(f'sn/sn_lsst_data/Y{args.year}_{obs}_FOUNDATION/{lcp_old}')[:,1]
+dmb  = np.loadtxt(f'sn/sn_lsst_data/Y{args.year}_{obs}_FOUNDATION/{lcp_old}')[:,5]
 
 ######################################
 ## WRITE LCPARAM IN COBAYA-LIKE FORMAT
 ######################################
+# DHFS Note: 
+# same cosmological parameters used to generate
+# the 3x2pt covariance matrix w/ CosmoCov
 omegam = 0.319
 omegab = 0.049
 h      = 0.67
@@ -60,24 +71,32 @@ mB = 25 + 5 * np.log10(dL) ## 25 + 5log(dL) Return a best model with data from s
 
 header = '#name zcmb zhel dz mb dmb x1 dx1 color dcolor 3rdvar d3rdvar cov_m_s cov_m_c cov_s_c set ra dec biascor\n'
 
-path_lcp = f'{home}/{snp}/{y1}/lcparam_lsst_y1.txt'
+lcp_new = f'lcparam_Y{args.year}_{obs}_FOUNDATION_CosmoCovFidParams.txt'
+path_lcp = f'sn/sn_lsst_data/Y{args.year}_{obs}_FOUNDATION/{lcp_new}'
+
 with open(path_lcp,'w') as f_lcp:
     f_lcp.write(header)
     for i in range(len(zcmb)):
-        f_lcp.write(f'name{i} {zcmb[i]} {zcmb[i]} {0.0} {mB[i]:.6f} {dmb_y1[i]}'+f' {0}'*12+'\n') 
+        f_lcp.write(f'name{i} {zcmb[i]} {zcmb[i]} {0.0} {mB[i]:.6f} {dmb[i]}'+f' {0}'*12+'\n') 
 
-############################################
+####################################
 ## WRITE COFIG IN COBAYA-LIKE FORMAT
-############################################
-# full_long_1 = 'pecz = 0\nintrinsicdisp = 0\ntwoscriptmfit = F\nscriptmcut = 10.0\nhas_mag_covmat = T\n' # taken from sn_data/Union3/full_long.dataset 
-# full_long_2 = 'has_stretch_covmat = F\nhas_colour_covmat = F\nhas_mag_stretch_covmat = F\nhas_mag_colour_covmat = F\nhas_stretch_colour_covmat = F\n' # taken from sn_data/Union3/full_long.dataset 
-# header_TEMPLATE = '#name zcmb zhel dz mb dmb x1 dx1 color dcolor 3rdvar d3rdvar cov_m_s cov_m_c cov_s_c set ra dec biascor\n' # taken from sn_data/Union3/full_long.dataset 
+####################################
+template = f"""name = JLA
+data_file = {lcp_new}
+pecz = 0
+intrinsicdisp = 0
+twoscriptmfit = F
+scriptmcut = 10.0
+has_mag_covmat = T
+mag_covmat_file = sys_Y{args.year}_{obs}_FOUNDATION_{args.sys_id}.txt
+has_stretch_covmat = F
+has_colour_covmat = F
+has_mag_stretch_covmat = F
+has_mag_colour_covmat = F
+has_stretch_colour_covmat = F"""
 
-# with open(f'{home}/sn_roman_sims/ROMAN_SIM_{idx}/config_ROMAN_SIM_{idx}.dataset','w') as f_conf:
-#     f_conf.write(f'name = ROMAN_SIM_{idx}\n') # see sn_data/DESY5/config.dataset
-#     f_conf.write(full_long_1)
-#     f_conf.write(f'data_file = ROMAN_SIM_{idx}/lcparam_ROMAN_SIM_{idx}.txt\n')
-#     f_conf.write(full_long_2)
-#     f_conf.write(f'mag_covmat_file = ROMAN_SIM_{idx}/covmat_ROMAN_SIM_{idx}.txt\n')
+dataset=f'sn/sn_lsst_data/Y{args.year}_{obs}_FOUNDATION/Y{args.year}_{obs}_FOUNDATION_{args.sys_id}_CosmoCovFidParams.dataset'
 
-# print("idx:",idx)
+with open(f'{dataset}','w') as f_conf:
+    f_conf.write(template) 
