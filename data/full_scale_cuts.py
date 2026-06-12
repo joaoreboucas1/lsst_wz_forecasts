@@ -1,5 +1,5 @@
 r"""
-Script to compute scale cuts using DES-Y3 methodology (Krause et al 2021):
+Script to compute scale cuts using DES-Y3 methodology (Krause et al 2021, https://arxiv.org/pdf/2105.13548):
 - Cosmic shear cuts are determined by finding a values for \theta_min in each pair of bins (i, j) such that, for every bin pair, \Delta\chi^2_(i,j) in that specific bin it less than \Delta\chi^2_threshold / NUM_SHEAR_2PCFS. The \Delta\chi^2 is the difference between a data vector computed with a fiducial model (e.g. no baryonic feedback) and a data vector computed with a model that has a small-scale modification (e.g. baryonic feedback). \Delta\chi^2_threshold is an user input and NUM_SHEAR_2PCFS is equal to 30 (15 xi_plus and 15 xi_minus) for 5 source bins.
 - Clustering and GGL scale cuts are detemined by setting minimum separation scales in Mpc/h, and then converting those to minimum angular separations using the average redshift of each lens bin.
 The script prints a mask file for Cocoa analyses, so the user can redirect that to a file of their preference.
@@ -9,7 +9,7 @@ Where:
     dv1: Path to first data vector (e.g. linear theory)
     dv2: Path to second data vector (e.g. halofit)
     cov: Path to covariance matrix
-    threshold: Chi2 threshold for cosmic shear scale cuts (default: 1.0)
+    threshold: Chi2 threshold for cosmic shear scale cuts (default: 0.5)
     Rmin_gc: Minimum separation scale for galaxy clustering in Mpc/h (default: 1.0)
     Rmin_ggl: Minimum separation scale for galaxy-galaxy lensing in Mpc/h (default: 1.0)
     mask_filename: Output file for mask (default: mask.txt)
@@ -99,6 +99,8 @@ if __name__ == "__main__":
         print(f"Error: DV1 and DV2 have different lengths ({dv_length} vs {len(dv2)})")
         exit(1)
 
+    print(f"Using data vectors {args.dv1} and {args.dv2}, number of elements = {len(dv1)}")
+
     # Shear part of data vectors for dchi2 calculations
     dv1 = dv1[:SHEAR_LEN]
     dv2 = dv2[:SHEAR_LEN]
@@ -116,9 +118,22 @@ if __name__ == "__main__":
             cov[i,j] = float(words[8]) + float(words[9])
             cov[j,i] = cov[i,j]
 
+    print(f"Loaded covariance {args.cov}")
+
+    print(f"Scale cut settings:")
+    print(f"  - chi2_threshold = {args.threshold}")
+    print(f"  - Rmin_gc = {args.Rmin_gc}")
+    print(f"  - Rmin_ggl = {args.Rmin_ggl}")
+    print("--------------------")
+
     # Cosmic shear scale cuts
     delta = dv1 - dv2
     invcov = np.linalg.inv(cov)
+
+    # Testing covariance inversion
+    should_be_identity = np.matmul(invcov, cov)
+    print(np.allclose(should_be_identity, np.identity(SHEAR_LEN), atol=1e-9, rtol=0))
+
 
     mask = np.ones_like(delta)
 
@@ -157,6 +172,10 @@ if __name__ == "__main__":
         shear_func = "xi_plus" if i < NUM_SHEAR_2PCFS//2 else "xi_minus"
         print(f"  - {shear_func} {pair}: {min_angle:.1f}")
     print(f"Original number of elements: {len(shear_mask)}, number of unmasked elements: {len(shear_mask[shear_mask > 0])}")
+    delta_shear = delta[:NUM_SHEAR_2PCFS*NUM_ANG_BINS]*shear_mask
+    invcov_shear = invcov[:NUM_SHEAR_2PCFS*NUM_ANG_BINS, :NUM_SHEAR_2PCFS*NUM_ANG_BINS]
+
+    print(f"Shear-only chi2 between {args.dv1} and {args.dv2}: {delta_shear@invcov_shear@delta_shear}")
     print("--------------------")
     
     def compute_cuts_gc_ggl():

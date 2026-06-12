@@ -23,8 +23,6 @@ params: !defaults
   - params_cosmo
   - params_derived
 
-
-
 theory:
   camb:
     path: ./external_modules/code/CAMB

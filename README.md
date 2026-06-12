@@ -2,6 +2,8 @@
 
 This project uses Cocoa to make forecasts for smooth dark energy models using LSST 3x2pt data.
 
+[Google Doc](https://docs.google.com/document/d/1OL-JTTKFIGYCMY-IUSE_GDCCBCahwdOl5fQUMKc4VwY/edit?usp=sharing) with project information.
+
 > [!Important]
 > If you find any bugs in this project, please contact João or Diogo ASAP!
 
