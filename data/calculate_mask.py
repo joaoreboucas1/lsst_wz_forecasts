@@ -2,9 +2,24 @@ import numpy as np
 import os
 from astropy.cosmology import FlatLambdaCDM
 import math as mt
+from scipy.special import jn_zeros
 
 #VM code adapted from Supranta's Python script
 ggl_efficiency_cut = [0.05]
+
+# DHFS MOD START
+l_max = 3000 
+x0_J0 = jn_zeros(0,1)[0] # First zero (0) of Bessel (J0)
+x0_J4 = jn_zeros(4,1)[0] # First zero (0) of Bessel (J4)
+arcmin_to_rad = np.pi/(60*180) # arcmin -> deg -> rad => np.pi/(60*180)
+theta_min_J0 = x0_J0 / l_max # rad 
+theta_min_J4 = x0_J4 / l_max # rad 
+ξp_CUTOFF_this_l_max = theta_min_J0/arcmin_to_rad
+ξm_CUTOFF_this_l_max = theta_min_J4/arcmin_to_rad
+
+print([round(2**i*ξp_CUTOFF_this_l_max,3) for i in range(5)])
+print([round(2**i*ξm_CUTOFF_this_l_max,3) for i in range(5)])
+# DHFS MOD END
 
 #VM INPUT BEGINS ---------------------------------------------------------------
 for Year in [1]:
@@ -13,31 +28,31 @@ for Year in [1]:
       # LSST_YX_M1.mask  (lmax = 3000) on CS -----------------------------------
       # lmax \times \theta_min corresponds to the first zero of the Bessel 𝐽0/4
       # lmax x theta_min corresponds to the first zero of the Bessel 𝐽0/4
-      # J0 first zero is 2.4048, J4 first zero is 6.3802
+      # J0 first zero is 2.4048, J4 first zero is 7.5883
       # For theta = 1arc_min, lmax * theta_min = 0.87
-      ξp_CUTOFF = 2.756  # cutoff scale in arcminutes
-      ξm_CUTOFF = 8.6955 # cutoff scale in arcminutes
-      gc_CUTOFF = 21     # Galaxy clustering cutoff in Mpc/h
+      ξp_CUTOFF = 2**(mask_choice-1)*ξp_CUTOFF_this_l_max # cutoff scale in arcminutes
+      ξm_CUTOFF = 2**(mask_choice-1)*ξm_CUTOFF_this_l_max # cutoff scale in arcminutes
+      gc_CUTOFF = 21                   # Galaxy clustering cutoff in Mpc/h
     elif (mask_choice == 2):
       # LSST_YX_M2.mask  -----------------------------------
-      ξp_CUTOFF = 5.512  # cutoff scale in arcminutes
-      ξm_CUTOFF = 17.391 # cutoff scale in arcminutes
-      gc_CUTOFF = 21     # Galaxy clustering cutoff in Mpc/h
+      ξp_CUTOFF = 2**(mask_choice-1)*ξp_CUTOFF_this_l_max # cutoff scale in arcminutes
+      ξm_CUTOFF = 2**(mask_choice-1)*ξm_CUTOFF_this_l_max # cutoff scale in arcminutes
+      gc_CUTOFF = 21                     # Galaxy clustering cutoff in Mpc/h
     elif (mask_choice == 3):
       # LSST_YX_M3.mask  ------------------------------------
-      ξp_CUTOFF = 11.024  # cutoff scale in arcminutes
-      ξm_CUTOFF = 34.782 # cutoff scale in arcminutes
-      gc_CUTOFF = 21     # Galaxy clustering cutoff in Mpc/h
+      ξp_CUTOFF = 2**(mask_choice-1)*ξp_CUTOFF_this_l_max # cutoff scale in arcminutes
+      ξm_CUTOFF = 2**(mask_choice-1)*ξm_CUTOFF_this_l_max # cutoff scale in arcminutes
+      gc_CUTOFF = 21                     # Galaxy clustering cutoff in Mpc/h
     elif (mask_choice == 4):
       # LSST_YX_M3.mask  ------------------------------------
-      ξp_CUTOFF = 22.048 # cutoff scale in arcminutes
-      ξm_CUTOFF = 69.564 # cutoff scale in arcminutes
-      gc_CUTOFF = 21     # Galaxy clustering cutoff in Mpc/h
+      ξp_CUTOFF = 2**(mask_choice-1)*ξp_CUTOFF_this_l_max # cutoff scale in arcminutes
+      ξm_CUTOFF = 2**(mask_choice-1)*ξm_CUTOFF_this_l_max # cutoff scale in arcminutes
+      gc_CUTOFF = 21                     # Galaxy clustering cutoff in Mpc/h
     elif (mask_choice == 5):
       # LSST_YX_M3.mask  ------------------------------------
-      ξp_CUTOFF = 44.096  # cutoff scale in arcminutes
-      ξm_CUTOFF = 139.128 # cutoff scale in arcminutes
-      gc_CUTOFF = 21      # Galaxy clustering cutoff in Mpc/h
+      ξp_CUTOFF = 2**(mask_choice-1)*ξp_CUTOFF_this_l_max # cutoff scale in arcminutes
+      ξm_CUTOFF = 2**(mask_choice-1)*ξm_CUTOFF_this_l_max # cutoff scale in arcminutes
+      gc_CUTOFF = 21                     # Galaxy clustering cutoff in Mpc/h
     elif (mask_choice == 6):
       # LSST_YX_M6.mask  all ones ---------------------------------------------
       ξp_CUTOFF = 0 # cutoff scale in arcminutes
@@ -46,9 +61,9 @@ for Year in [1]:
     #VM INPUT ENDS -------------------------------------------------------------
 
     #VM GLOBAL VARIABLES -------------------------------------------------------
-    THETA_MIN  = 2.5    # Minimum angular scale (in arcminutes)
-    THETA_MAX  = 900.  # Maximum angular scale (in arcminutes)
-    N_ANG_BINS = 26    # Number of angular bins
+    THETA_MIN  = 2.5  # Minimum angular scale (in arcminutes)
+    THETA_MAX  = 900. # Maximum angular scale (in arcminutes)
+    N_ANG_BINS = 26   # Number of angular bins
     N_LENS = 5  # Number of lens tomographic bins
     N_SRC  = 5  # Number of source tomographic bins
     N_XI_PS = int(N_SRC * (N_SRC + 1) / 2) 
