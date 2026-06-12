@@ -6,7 +6,7 @@ debug: False
 stop_at_error: False
 
 dataset1: &ds1 Y1_DDF_FOUNDATION_0.dataset
-dataset2: &ds2 y1_0.dataset
+dataset2: &ds2 Y1_DDF_FOUNDATION_0_CosmoCovFidParams.dataset
 
 likelihood:
   # LSST SN simulation    
